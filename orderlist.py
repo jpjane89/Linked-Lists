@@ -3,20 +3,34 @@ class Node:
         self.data = data
         self.next = next
 
-class LinkedList:
+class OrderedList:
     def __init__(self):
         self.head = None
         self.tail = None
 
     def add(self, data):
+        current = self.head
+        previous = None
+        stop = False
+
+        while current != None and not stop:
+            if current.data > data:
+                stop = True
+            else:
+                previous = current
+                current = current.next
+
         node = Node(data)
 
-        if self.head == None:
+        if current == None:
             self.head = node
             self.tail = node
+        elif previous == None:
+            self.head = node
+            node.next = current
         else:
-            self.tail.next = node
-            self.tail = node
+            previous.next = node
+            node.next = current
 
     def size(self):
         current = self.head
@@ -31,10 +45,13 @@ class LinkedList:
     def search (self,data):
         current = self.head
         found = False
+        stop = False
 
-        while current != None and not found:
+        while current != None and not found and not stop:
             if current.data == data:
                 found = True
+            elif current.data > data:
+                stop = True
             else:
                 current = current.next
 
@@ -58,28 +75,6 @@ class LinkedList:
         else:
             previous.next = current.next
 
-    def insert(self,data,pos):
-        current = self.head
-        previous = None
-        position = 0
-        found = False
-
-        while current != None and not found:
-            if position == pos:
-                found = True
-                node = Node(data)
-            else:
-                previous = current
-                current = current.next
-                position += 1
-
-        if previous == None:
-            self.head = node
-            self.head.next = current
-        else:
-            previous.next = node
-            node.next = current
-
     def index(self, data):
         current = self.head
         position = 0
@@ -91,7 +86,6 @@ class LinkedList:
             else:
                 position += 1
                 current = current.next
-
         if found:
             return position
         else:
@@ -127,7 +121,3 @@ class LinkedList:
         while current != None:
             print current.data
             current = current.next
-
-
-
-
