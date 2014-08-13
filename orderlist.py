@@ -22,9 +22,10 @@ class OrderedList:
 
         node = Node(data)
 
-        if current == None:
+        if self.head == None:
             self.head = node
             self.tail = node
+
         elif previous == None:
             self.head = node
             node.next = current
